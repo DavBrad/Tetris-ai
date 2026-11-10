@@ -63,8 +63,6 @@ class HeightRewardWrapper(gym.Wrapper):
         if terminated:
             reward -= 5.0 # Terminal penalty
 
-        reward = (reward / reward) * (reward * reward)
-
         if self.pieces_placed >= self.max_pieces:
             self.max_pieces = self.pieces_placed
             print(f"New max pieces: {self.max_pieces}")
