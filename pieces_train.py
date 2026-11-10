@@ -25,7 +25,7 @@ def main(model_name):
                         n_steps=2048,
                         batch_size=64,
                         n_epochs=10,
-                        gamma=0.99,
+                        gamma=1,
                         gae_lambda=0.95,
                         ent_coef=0.01,
                         verbose=1,
@@ -33,7 +33,7 @@ def main(model_name):
                         device="auto",
                         seed=SEED)
     #model.learn(total_timesteps=1_000_000, progress_bar=True)
-    model.learn(total_timesteps=100_000, progress_bar=True)
+    model.learn(total_timesteps=10_000_000, progress_bar=True)
     model.save(model_name)
     env.close()
 
@@ -46,7 +46,7 @@ def continue_training(load_name, save_name, timesteps=100_000): # Total timestep
     env.close()
 
 if __name__ == "__main__":
-    #main("tetris_pieces_m2_100") #Format: m1 (Model 1) 100(100k timesteps)
-    continue_training("tetris_pieces_m1_1000", "tetris_pieces_m1_10000", 9_000_000)
+    main("tetris_pieces_m3_10000") #Format: m1 (Model 1) 100(100k timesteps)
+    #continue_training("tetris_pieces_m1_1000", "tetris_pieces_m1_10000", 9_000_000)
 
     

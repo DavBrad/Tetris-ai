@@ -11,7 +11,7 @@ WINDOW_NAME = "Tetris AI - Trained Model"
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="tetris_pieces_m1_1000")
+    parser.add_argument("--model", type=str, default="tetris_score_m1_1000")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--delay-ms", type=int, default=500)
     return parser.parse_args()
