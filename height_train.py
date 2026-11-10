@@ -11,6 +11,7 @@ SEED = 42
 
 def create_env():
     env = make_placement_env(render_mode="rgb_array")
+    #env = gym.wrappers.HumanRendering(env)
     env = HeightRewardWrapper(env)
     env = ActionMasker(env, lambda e: e.action_mask)
     env.reset()
@@ -25,7 +26,7 @@ def main(model_name):
                         n_steps=2048,
                         batch_size=64,
                         n_epochs=10,
-                        gamma=0.99,
+                        gamma=1,
                         gae_lambda=0.95,
                         ent_coef=0.01,
                         verbose=1,
@@ -46,7 +47,7 @@ def continue_training(load_name, save_name, timesteps=100_000): # Total timestep
     env.close()
 
 if __name__ == "__main__":
-    main("tetris_height_m7_100") #Format: m1 (Model 1) 100(100k timesteps)
-    #continue_training("tetris_height_m5_100", "tetris_height_m5_250", 150_000)
+    main("tetris_height_m3_100") #Format: m1 (Model 1) 100(100k timesteps)
+    #continue_training("tetris_height_m8_100", "tetris_height_m8_250", 150_000)
 
     

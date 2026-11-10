@@ -30,4 +30,4 @@ def evaluate(path, episodes=100):
     return final_heights, pieces_placed
 
 if __name__ == "__main__":
-    evaluate("tetris_score_m1_100")
+    evaluate("tetris_height_m2_100")
