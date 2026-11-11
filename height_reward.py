@@ -55,13 +55,16 @@ class HeightRewardWrapper(gym.Wrapper):
 
         # Basic reward function (M1)
         delta = current_height - self.previous_height
-        reward = -float(delta)
+        if (delta > 0):
+            reward = - (delta ** 2)
+        else:
+            reward = (delta ** 2)
 
         # Expanded reward function (M2)
-        reward += 0.2 # Slightly encourage survival
+        reward += 0.1 # Slightly encourage survival
 
-        if terminated:
-            reward -= 5.0 # Terminal penalty
+        #if terminated:
+            #reward -= 5.0 # Terminal penalty
 
         if self.pieces_placed >= self.max_pieces:
             self.max_pieces = self.pieces_placed

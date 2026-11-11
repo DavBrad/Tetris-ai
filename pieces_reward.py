@@ -10,15 +10,16 @@ class PiecesRewardWrapper(gym.Wrapper):
         super().__init__(env)
         self.pieces_placed = 0
         self._action_mask = None
+        self.episode_threshold = 0
 
     @property
     def action_mask(self):
         return self._action_mask
 
     def reset(self, **kwargs):
-        print(f"Current max pieces: {self.max_pieces}")
         observation, info = self.env.reset(**kwargs)
         self.pieces_placed = 0
+        self.episode_threshold = self.max_pieces * 0.8
         self._action_mask = np.asarray(info["action_mask"], dtype=bool)
         return observation, info
 
@@ -26,14 +27,12 @@ class PiecesRewardWrapper(gym.Wrapper):
         observation, _, terminated, truncated, info = (self.env.step(action))
         self.pieces_placed += 1
 
+        # Reward function
+        reward = max(self.pieces_placed - self.episode_threshold, 0)
+
         if self.pieces_placed >= self.max_pieces:
             self.max_pieces = self.pieces_placed
             print(f"New max pieces: {self.max_pieces}")
-
-        # Reward function
-        reward = 1.0
-        if (self.pieces_placed >= 25):
-            reward += 2.0
 
         self._action_mask = np.asarray(info["action_mask"], dtype=bool)
         info = dict(info)

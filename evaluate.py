@@ -2,13 +2,13 @@ import numpy as np
 from sb3_contrib import MaskablePPO
 from height_train import create_env
 
-def evaluate(path, episodes=100):
+def evaluate(path, episodes=50):
     env = create_env()
     model = MaskablePPO.load(path)
     final_heights = []
     pieces_placed = []
 
-    for episode in range(episodes):
+    for episode in range(episodes): 
         observation, info = env.reset(seed=42 + episode)
         terminated = truncated = False
         count = 0
@@ -30,4 +30,6 @@ def evaluate(path, episodes=100):
     return final_heights, pieces_placed
 
 if __name__ == "__main__":
-    evaluate("tetris_pieces_m5_100")
+    evaluate("tetris_clears_m1_250")
+    evaluate("tetris_clears_m2_250")
+    evaluate("tetris_clears_m2_20000")
