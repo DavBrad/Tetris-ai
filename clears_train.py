@@ -22,7 +22,7 @@ def main(model_name):
     env = create_env()
     model = MaskablePPO("MlpPolicy", 
                         env,
-                        learning_rate=3e-4,
+                        learning_rate=linear_schedule(3e-4),
                         n_steps=2048,
                         batch_size=64,
                         n_epochs=10,
@@ -34,7 +34,7 @@ def main(model_name):
                         device="auto",
                         seed=SEED)
     #model.learn(total_timesteps=1_000_000, progress_bar=True)
-    model.learn(total_timesteps=100_000, progress_bar=True)
+    model.learn(total_timesteps=1_000_000, progress_bar=True)
     model.save(model_name)
     env.close()
 
@@ -46,8 +46,13 @@ def continue_training(load_name, save_name, timesteps=100_000): # Total timestep
     model.save(save_name)
     env.close()
 
+def linear_schedule(initial_value: float):
+    def func(progress_remaining: float) -> float:
+        return progress_remaining * initial_value
+    return func
+
 if __name__ == "__main__":
-    #main("tetris_clears_m2_100") #Format: m1 (Model 1) 100(100k timesteps)
-    continue_training("tetris_clears_m2_250", "tetris_clears_m2_20000", 19_750_000)
+    main("tetris_clears_m3_1000") #Format: m1 (Model 1) 100(100k timesteps)
+    #continue_training("tetris_clears_m2_250", "tetris_clears_m2_20000", 19_750_000)
 
     

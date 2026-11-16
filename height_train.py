@@ -22,7 +22,7 @@ def main(model_name):
     env = create_env()
     model = MaskablePPO("MlpPolicy", 
                         env,
-                        learning_rate=3e-4,
+                        learning_rate=0.01,
                         n_steps=2048,
                         batch_size=64,
                         n_epochs=10,
@@ -47,7 +47,7 @@ def continue_training(load_name, save_name, timesteps=100_000): # Total timestep
     env.close()
 
 if __name__ == "__main__":
-    #main("tetris_height_m5_100") #Format: m1 (Model 1) 100(100k timesteps)
-    continue_training("tetris_height_m5_250", "tetris_height_m5_1000", 900_000)
+    main("tetris_height_m6_100") #Format: m1 (Model 1) 100(100k timesteps)
+    #continue_training("tetris_height_m5_250", "tetris_height_m5_1000", 900_000)
 
     
