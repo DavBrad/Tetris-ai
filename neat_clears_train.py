@@ -82,6 +82,19 @@ def main(model_name):
     print(winner)
     return winner
 
+def continue_training(checkpoint_path, generations=100):
+    population = neat.Checkpointer.restore.checkpoint(
+        checkpoint_path
+    )
+    population.add_reporter(neat.StdOutReporter(True))
+
+    stats = neat.StatisticsReporter()
+    population.add_reporter(stats)
+    winner = population.run(
+        evaluate_genomes,
+        generations
+    )
+
 if __name__ == "__main__":
     main()
 
