@@ -30,6 +30,6 @@ def evaluate(path, episodes=50):
     return final_heights, pieces_placed
 
 if __name__ == "__main__":
-    evaluate("tetris_clears_m1_250")
-    evaluate("tetris_clears_m2_250")
-    evaluate("tetris_clears_m3_1000")
+    evaluate("tetris_clears_m4_1000")
+    evaluate("tetris_clears_m5_1000")
+    evaluate("tetris_clears_m6_1000")

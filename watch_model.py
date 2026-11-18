@@ -5,13 +5,14 @@ import argparse
 import cv2
 import numpy as np
 from sb3_contrib import MaskablePPO
+from stable_baselines3 import DQN
 from height_train import create_env
 
 WINDOW_NAME = "Tetris AI - Trained Model"
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="tetris_clears_m2_100")
+    parser.add_argument("--model", type=str, default="tetris_dqnclears_m1_1000")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--delay-ms", type=int, default=500)
     return parser.parse_args()
@@ -19,7 +20,8 @@ def parse_args():
 def main():
     args = parse_args()
     env = create_env()
-    model = MaskablePPO.load(args.model)
+    #model = MaskablePPO.load(args.model)
+    model = DQN.load(args.model)
     observation, info = env.reset()
     terminated = truncated = False
     pieces = 0
@@ -35,7 +37,7 @@ def main():
         action, _ = model.predict(
             observation,
             deterministic=True,
-            action_masks=env.action_masks()
+            #action_masks=env.action_masks()
         )
 
         observation, reward, terminated, truncated, info = (env.step(action))

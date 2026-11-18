@@ -3,6 +3,7 @@ import numpy as np
 
 from sb3_contrib import MaskablePPO
 from sb3_contrib.common.wrappers import ActionMasker
+import torch
 
 from environment import make_placement_env
 from clears_reward import ClearRewardWrapper
@@ -22,7 +23,7 @@ def main(model_name):
     env = create_env()
     model = MaskablePPO("MlpPolicy", 
                         env,
-                        learning_rate=linear_schedule(3e-4),
+                        learning_rate=linear_schedule(1e-4),
                         n_steps=2048,
                         batch_size=64,
                         n_epochs=10,
@@ -32,9 +33,13 @@ def main(model_name):
                         verbose=1,
                         tensorboard_log="./tensorboard",
                         device="auto",
-                        seed=SEED)
-    #model.learn(total_timesteps=1_000_000, progress_bar=True)
+                        seed=SEED,
+                        target_kl=0.02,
+                         policy_kwargs = dict(
+                             activation_fn = torch.nn.ReLU,
+                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]))
     model.learn(total_timesteps=1_000_000, progress_bar=True)
+    #model.learn(total_timesteps=500_000, progress_bar=True)
     model.save(model_name)
     env.close()
 
@@ -52,7 +57,10 @@ def linear_schedule(initial_value: float):
     return func
 
 if __name__ == "__main__":
-    main("tetris_clears_m3_1000") #Format: m1 (Model 1) 100(100k timesteps)
-    #continue_training("tetris_clears_m2_250", "tetris_clears_m2_20000", 19_750_000)
+    #main("tetris_clears_m6_1000") #Format: m1 (Model 1) 100(100k timesteps)
+    continue_training("tetris_clears_m4_1000", "tetris_clears_m4_20000", 19_000_000)
+    #main("tetris_clears_m6_500") #Format: m1 (Model 1) 100(100k timesteps)
+    #for i in range(1, 2):
+        #continue_training(f"tetris_clears_m6_{i * 500}", f"tetris_clears_m6_{(i+1)*500}", 500_000)
 
     

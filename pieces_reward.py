@@ -19,7 +19,7 @@ class PiecesRewardWrapper(gym.Wrapper):
     def reset(self, **kwargs):
         observation, info = self.env.reset(**kwargs)
         self.pieces_placed = 0
-        self.episode_threshold = self.max_pieces * 0.8
+        #self.episode_threshold = self.max_pieces * 0.8
         self._action_mask = np.asarray(info["action_mask"], dtype=bool)
         return observation, info
 
@@ -28,8 +28,8 @@ class PiecesRewardWrapper(gym.Wrapper):
         self.pieces_placed += 1
 
         # Reward function
-        reward = max(self.pieces_placed - self.episode_threshold, 0)
-
+        #reward = max(self.pieces_placed - self.episode_threshold, 0)
+        reward = 1.0 # Reward for each piece placed
         if self.pieces_placed >= self.max_pieces:
             self.max_pieces = self.pieces_placed
             print(f"New max pieces: {self.max_pieces}")
