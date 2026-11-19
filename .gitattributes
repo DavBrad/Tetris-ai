@@ -1,0 +1,9 @@
+tetris_clears_m6_1000.zip filter=lfs diff=lfs merge=lfs -text
+tetris_dqnclears_m1_1000.zip filter=lfs diff=lfs merge=lfs -text
+tetris_dqnclears_m1_3000.zip filter=lfs diff=lfs merge=lfs -text
+tetris_dqnclears_m1_6000.zip filter=lfs diff=lfs merge=lfs -text
+tetris_dqnclears_m1_7000.zip filter=lfs diff=lfs merge=lfs -text
+tetris_dqnclears_m1_2000.zip filter=lfs diff=lfs merge=lfs -text
+tetris_dqnclears_m1_4000.zip filter=lfs diff=lfs merge=lfs -text
+tetris_dqnclears_m1_5000.zip filter=lfs diff=lfs merge=lfs -text
+tetris_dqnclears_m1_8000.zip filter=lfs diff=lfs merge=lfs -text

@@ -60,6 +60,7 @@ def linear_schedule(initial_value: float):
 
 if __name__ == "__main__":
     #main("tetris_dqnclears_m1_1000") #Format: m1 (Model 1) 100(100k timesteps)
-    continue_training("tetris_dqnclears_m1_1000", "tetris_clears_m4_10000", 9_000_000)
+    for i in range(2, 24):
+                continue_training(f"tetris_dqnclears_m1_{i * 1000}", f"tetris_dqnclears_m1_{(i+1)*1000}", 1_000_000)
 
     

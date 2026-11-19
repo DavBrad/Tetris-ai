@@ -5,7 +5,7 @@ import numpy as np
 
 class ClearRewardWrapper(gym.Wrapper):
     max_pieces = 0
-    max_reward = 0
+    max_reward = 0.0
     #Reward based on the height of the agent in the environment
     def __init__(self, env):
         super().__init__(env)
@@ -17,6 +17,8 @@ class ClearRewardWrapper(gym.Wrapper):
         self.padding = base.padding
 
         self.pieces_placed = 0
+        self.previous_height = 0
+        self.rows_clear = 0
         self._action_mask = None
 
     @property
@@ -30,9 +32,17 @@ class ClearRewardWrapper(gym.Wrapper):
         self._action_mask = np.asarray(info["action_mask"], dtype=bool)
         return observation, info
 
+    def get_max_height(self):
+            board = self.base.board
+            board = board[:self.height, self.padding:self.padding + self.width]
+            occupied = board != 0
+            column_heights = np.where(occupied.any(axis = 0), self.height - occupied.argmax(axis=0), 0)
+            return int(column_heights.max())
+
     def step(self, action):
         observation, _, terminated, truncated, info = (self.env.step(action))
         self.pieces_placed += 1
+        current_height = self.get_max_height()
 
         # M1 - Solely reward lines cleared
         lines_cleared = int(info["lines_cleared"])
@@ -41,19 +51,24 @@ class ClearRewardWrapper(gym.Wrapper):
         # M2 - Reward based on survival
         reward += 0.1
 
+        # M3 - Reward based on not increasing height
+        #delta = current_height - self.previous_height
+        #reward -= delta
+
         #if terminated:
             #reward -= 5.0 # Terminal penalty
 
-        if self.pieces_placed >= self.max_pieces:
-            self.max_pieces = self.pieces_placed
-            print(f"New max pieces: {self.max_pieces}")
-            print(f"Reward: {reward}")
-        if reward >= self.max_reward:
-            self.max_reward = reward
-            print(f"New max reward: {self.max_reward}")
-        if reward >= 10:
-            print(f"Line cleared")
+        # if self.pieces_placed >= self.max_pieces:
+        #     self.max_pieces = self.pieces_placed
+        #     print(f"New max pieces: {self.max_pieces}")
+        #     print(f"Reward: {reward}")
+        # if reward >= self.max_reward:
+        #     self.max_reward = reward
+        #     #print(f"New max reward: {self.max_reward}")
+        # if reward >= 10:
+        #     print(f"Line cleared")
         
+        self.previous_height = current_height
         self.rows_clear = lines_cleared
         self._action_mask = np.asarray(info["action_mask"], dtype=bool)
         return (observation, float(reward), terminated, truncated, info)
