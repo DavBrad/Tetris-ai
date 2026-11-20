@@ -21,7 +21,7 @@ def main(model_name):
     env = create_env()
     model = DQN("MlpPolicy",
                  env,
-                 learning_rate=3e-4,
+                 learning_rate=1e-4,
                  buffer_size=100_000,
                  learning_starts=10_000,
                  batch_size=64,
@@ -59,7 +59,7 @@ def linear_schedule(initial_value: float):
     return func
 
 if __name__ == "__main__":
-    main("tetris_dqnclears_m2_1000") #Format: m1 (Model 1) 100(100k timesteps)
+    main("tetris_dqnclears_m3_1000") #Format: m1 (Model 1) 100(100k timesteps)
     #for i in range(2, 24):
     #            continue_training(f"tetris_dqnclears_m1_{i * 1000}", f"tetris_dqnclears_m1_{(i+1)*1000}", 1_000_000)
 
