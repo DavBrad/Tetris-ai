@@ -39,7 +39,7 @@ def main(model_name):
                  seed=SEED,
                  policy_kwargs = dict(
                      activation_fn = torch.nn.ReLU,
-                     net_arch=[128, 64]))
+                     net_arch=[32, 32]))
     model.learn(total_timesteps=1_000_000, progress_bar=True)
     #model.learn(total_timesteps=500_000, progress_bar=True)
     model.save(model_name)
@@ -59,7 +59,7 @@ def linear_schedule(initial_value: float):
     return func
 
 if __name__ == "__main__":
-    main("tetris_dqnclears_m4_1000") #Format: m1 (Model 1) 100(100k timesteps)
+    main("tetris_dqnclears_m6_1000") #Format: m1 (Model 1) 100(100k timesteps)
     #for i in range(2, 24):
     #            continue_training(f"tetris_dqnclears_m1_{i * 1000}", f"tetris_dqnclears_m1_{(i+1)*1000}", 1_000_000)
 
