@@ -2,7 +2,7 @@ import numpy as np
 from stable_baselines3 import DQN
 from dqn_clears_train import create_env
 
-def evaluate(path, episodes=50):
+def evaluate(path, episodes=1000):
     env = create_env()
     model = DQN.load(path)
     final_heights = []
@@ -28,3 +28,7 @@ def evaluate(path, episodes=50):
 if __name__ == "__main__":
     evaluate("tetris_dqnclears_m1_1000")
     evaluate("tetris_dqnclears_m2_1000")
+    evaluate("tetris_dqnclears_m3_1000")
+    evaluate("tetris_dqnclears_m4_1000")
+    evaluate("tetris_dqnclears_m5_1000")
+    evaluate("tetris_dqnclears_m6_1000")
