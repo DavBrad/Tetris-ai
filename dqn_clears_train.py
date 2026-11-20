@@ -21,16 +21,16 @@ def main(model_name):
     env = create_env()
     model = DQN("MlpPolicy",
                  env,
-                 learning_rate=1e-4,
-                 buffer_size=100_000,
-                 learning_starts=10_000,
-                 batch_size=64,
-                 gamma=1,
+                 learning_rate=1e-3,
+                 buffer_size=50_000,
+                 learning_starts=1_000,
+                 batch_size=128,
+                 gamma=0.99,
                  tau=1,
                  train_freq=4,
                  target_update_interval=10_000,
                  gradient_steps=1,
-                 exploration_fraction=0.3,
+                 exploration_fraction=0.5,
                  exploration_initial_eps=1.0,
                  exploration_final_eps=0.05,
                  verbose=1,
@@ -39,7 +39,7 @@ def main(model_name):
                  seed=SEED,
                  policy_kwargs = dict(
                      activation_fn = torch.nn.ReLU,
-                     net_arch=[4, 4]))
+                     net_arch=[64, 64]))
     model.learn(total_timesteps=1_000_000, progress_bar=True)
     #model.learn(total_timesteps=500_000, progress_bar=True)
     model.save(model_name)
@@ -59,7 +59,7 @@ def linear_schedule(initial_value: float):
     return func
 
 if __name__ == "__main__":
-    main("tetris_dqnclears_micro_1000") #Format: m1 (Model 1) 100(100k timesteps)
+    main("tetris_dqnclears_9_1000") #Format: m1 (Model 1) 100(100k timesteps)
     #for i in range(2, 24):
     #            continue_training(f"tetris_dqnclears_m1_{i * 1000}", f"tetris_dqnclears_m1_{(i+1)*1000}", 1_000_000)
 
